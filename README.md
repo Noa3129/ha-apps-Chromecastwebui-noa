@@ -22,6 +22,8 @@ APP_2_DEEP_LINK=https://www.netflix.com
 
 Home Assistant OSでは、同梱のAppリポジトリ形式も利用できます。Settings > Apps > 右上メニュー > Repositoriesで、このリポジトリURLを追加し、「Chromecast Remote」をインストールしてください。AppのConfigurationで `remote_entity` に対象の `remote.*` エンティティを設定すると、Ingress経由でHome Assistantのサイドバーから開けます。AppsはHome Assistant OS専用です。
 
+Home Assistant App版はホストのTCP 5090へ公開されます。LANからは `http://homeassistant.local:5090/` でアクセスできます。ポートを変える場合は`chromecast_remote/config.yaml`の`ports`のホスト側の値を変更し、Appのバージョンを更新してください。
+
 起動前に `.env` を作成し、Home AssistantのURL、Long-Lived Access Token、Android TV Remoteのremoteエンティティを設定します。
 
 ```dotenv

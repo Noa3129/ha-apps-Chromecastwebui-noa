@@ -1,5 +1,5 @@
 name: "Chromecast Remote"
-version: "0.3.0"
+version: "0.4.0"
 slug: "chromecast_remote"
 description: "iOS-friendly Chromecast and Android TV remote powered by Home Assistant's Android TV Remote integration."
 arch:
@@ -13,6 +13,11 @@ build_from:
 startup: application
 boot: auto
 init: false
+ports:
+  "9090/tcp": 5090
+ports_description:
+  "9090/tcp": "Chromecast Remote web interface"
+webui: "http://[HOST]:[PORT:9090]"
 ingress: true
 ingress_port: 9090
 panel_icon: mdi:remote-tv
