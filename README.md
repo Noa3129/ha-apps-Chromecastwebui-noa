@@ -24,6 +24,8 @@ Home Assistant OSでは、同梱のAppリポジトリ形式も利用できます
 
 Home Assistant App版はホストのTCP 5090へ公開されます。LANからは `http://homeassistant.local:5090/` でアクセスできます。ポートを変える場合は`chromecast_remote/config.yaml`の`ports`のホスト側の値を変更し、Appのバージョンを更新してください。
 
+IPv6で接続する場合は、Home AssistantホストのIPv6アドレスを角括弧で囲み、`http://[2001:db8::1234]:5090/` の形式でアクセスします。ホスト、Docker、LANのIPv6通信が有効である必要があります。
+
 App更新後に古い画面が残る場合は、Appを停止して起動し直し、iPhone側でページを再読み込みしてください。Service Workerはリリースごとにキャッシュ世代を更新しています。
 
 押下時は視覚フィードバックを必ず表示し、`navigator.vibrate()`対応環境では短い振動を試行します。iOS Safari/PWAはWebからTaptic Engineを直接呼べないため、iPhoneでは短いWeb Audio音をフォールバックとして鳴らします。本物のTaptic Engineが必要な場合はネイティブApp化が必要です。

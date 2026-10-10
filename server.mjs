@@ -63,4 +63,4 @@ const server = http.createServer(async (request, response) => {
     catch { const data = await fs.readFile(path.join(root, 'index.html')); response.writeHead(200, { 'Content-Type': mime['.html'] }); response.end(data); }
   } catch (error) { sendJson(response, 500, { error: error.message }); }
 });
-server.listen(port, '0.0.0.0', () => console.log(`Chromecast Remote listening on ${port}`));
+server.listen({ port, host: '::', ipv6Only: false }, () => console.log(`Chromecast Remote listening on ${port}`));
