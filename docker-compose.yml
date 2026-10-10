@@ -1,0 +1,10 @@
+services:
+  chromecast-remote:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      HA_URL: "${HA_URL:-}"
+      HA_TOKEN: "${HA_TOKEN:-}"
+      HA_REMOTE_ENTITY: "${HA_REMOTE_ENTITY:-}"
+    restart: unless-stopped

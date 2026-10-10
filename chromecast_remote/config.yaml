@@ -1,0 +1,25 @@
+name: "Chromecast Remote"
+version: "0.2.0"
+slug: "chromecast_remote"
+description: "iOS-friendly Chromecast and Android TV remote powered by Home Assistant's Android TV Remote integration."
+arch:
+  - amd64
+  - aarch64
+  - armv7
+build_from:
+  amd64: node:22-alpine
+  aarch64: node:22-alpine
+  armv7: node:22-alpine
+startup: application
+boot: auto
+init: false
+ingress: true
+ingress_port: 8099
+panel_icon: mdi:remote-tv
+panel_title: Chromecast Remote
+homeassistant_api: true
+options:
+  remote_entity: ""
+schema:
+  remote_entity: str
+stage: experimental
