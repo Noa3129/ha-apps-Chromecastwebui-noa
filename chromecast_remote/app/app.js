@@ -17,6 +17,11 @@ function applyTheme(theme) {
   themeToggle.setAttribute('aria-label', `テーマ切り替え（現在：${label}）`);
 }
 function notify(message) { toast.textContent = message; toast.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => toast.classList.remove('show'), 1800); }
+function tactileFeedback(duration = 8) {
+  if (typeof navigator.vibrate === 'function') navigator.vibrate(duration);
+  const nativeHaptic = window.webkit?.messageHandlers?.haptic;
+  if (nativeHaptic?.postMessage) nativeHaptic.postMessage({ duration });
+}
 function setConnectionStatus() { const offline = !navigator.onLine; status.classList.toggle('offline', offline); if (offline) statusText.textContent = 'オフライン · 操作は送信されません'; }
 async function refreshHaStatus() {
   if (!navigator.onLine) return;
@@ -65,7 +70,7 @@ themeToggle.addEventListener('click', () => { currentTheme = currentTheme === 's
 addEventListener('online', () => { setConnectionStatus(); refreshHaStatus(); loadAppSettings(); });
 addEventListener('offline', setConnectionStatus);
 document.querySelectorAll('[data-action]').forEach(button => {
-  button.addEventListener('pointerdown', () => markPressed(button));
+  button.addEventListener('pointerdown', () => { markPressed(button); tactileFeedback(); });
   button.addEventListener('pointerup', () => button.classList.remove('pressed'));
   button.addEventListener('pointercancel', () => button.classList.remove('pressed'));
   button.addEventListener('click', () => { const action = button.dataset.action; markPressed(button); if (action === 'ミュート') { isMuted = !isMuted; button.classList.toggle('muted', isMuted); button.setAttribute('aria-pressed', String(isMuted)); button.querySelector('span').textContent = isMuted ? 'ミュート中' : 'ミュート'; } sendAction(action, button); });

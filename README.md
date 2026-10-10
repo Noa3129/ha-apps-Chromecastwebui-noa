@@ -24,6 +24,8 @@ Home Assistant OSでは、同梱のAppリポジトリ形式も利用できます
 
 Home Assistant App版はホストのTCP 5090へ公開されます。LANからは `http://homeassistant.local:5090/` でアクセスできます。ポートを変える場合は`chromecast_remote/config.yaml`の`ports`のホスト側の値を変更し、Appのバージョンを更新してください。
 
+押下時は視覚フィードバックを必ず表示し、`navigator.vibrate()`対応環境では短い振動も試行します。iOS Safari/PWAはWebからTaptic Engineを直接呼べないため、iOSでは視覚フィードバックが標準動作です。
+
 直接公開ポートはHome Assistantのログイン画面を経由しません。Home AssistantのAPIトークンはApp内部に保持されますが、画面自体はLAN上の誰でも到達できるため、インターネットへポートフォワードしないでください。
 
 起動前に `.env` を作成し、Home AssistantのURL、Long-Lived Access Token、Android TV Remoteのremoteエンティティを設定します。

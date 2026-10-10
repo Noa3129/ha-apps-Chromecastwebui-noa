@@ -23,3 +23,13 @@
   .pad{grid-template-rows:repeat(3,clamp(56px,7.6dvh,68px));gap:5px}
   .key{min-width:56px;min-height:56px}
 }
+button svg{pointer-events:none}
+@media (max-width:599px){
+  .pad-wrap{max-width:390px;padding:18px 14px}
+  .pad{grid-template-rows:repeat(3,clamp(92px,14dvh,120px));gap:4px}
+  .key{min-width:0;min-height:0;height:100%;padding:0}
+}
+@media (max-height:760px) and (max-width:599px){
+  .pad-wrap{padding:12px 10px}
+  .pad{grid-template-rows:repeat(3,clamp(68px,10dvh,84px));gap:4px}
+}
