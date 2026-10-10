@@ -14,7 +14,7 @@ startup: application
 boot: auto
 init: false
 ingress: true
-ingress_port: 8099
+ingress_port: 9090
 panel_icon: mdi:remote-tv
 panel_title: Chromecast Remote
 homeassistant_api: true

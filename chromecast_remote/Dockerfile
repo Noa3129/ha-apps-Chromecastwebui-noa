@@ -1,7 +1,7 @@
 FROM node:22-alpine
 WORKDIR /app
 COPY app/ /app/
-ENV PORT=8099
+ENV PORT=9090
 ENV HA_APP_MODE=true
-EXPOSE 8099
+EXPOSE 9090
 CMD ["node", "server.mjs"]

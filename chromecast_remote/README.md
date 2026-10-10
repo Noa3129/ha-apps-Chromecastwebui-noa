@@ -9,4 +9,4 @@ Home Assistant OS向けのAppです。Home AssistantのAndroid TV Remote統合�
 5. `app_1_*` と `app_2_*` に、ボタンの文字列、画像URL、ディープリンクを設定します。未設定のボタンは無地で表示されます。
 6. Start後、「OPEN WEB UI」またはサイドバーのChromecast Remoteを開きます。
 
-このAppはIngressとHome Assistant内部APIを使うため、Long-Lived Access Tokenの入力は不要です。AppsはHome Assistant OSでのみ利用できます。
+このAppはIngress（内部ポート9090）とHome Assistant内部APIを使うため、Long-Lived Access Tokenの入力は不要です。AppsはHome Assistant OSでのみ利用できます。
