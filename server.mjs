@@ -24,7 +24,7 @@ const mime = { '.html':'text/html; charset=utf-8', '.css':'text/css; charset=utf
 async function haRequest(endpoint, options = {}) {
   if (!configured) throw new Error('Home Assistant connection is not configured');
   const response = await fetch(`${haBase}${endpoint}`, { ...options, headers: { Authorization: `Bearer ${haToken}`, 'Content-Type': 'application/json', ...(options.headers || {}) } });
-  if (!response.ok) throw new Error(`Home Assistant returned ${response.status}`);
+  if (!response.ok) { const detail = await response.text(); throw new Error(`Home Assistant returned ${response.status}${detail ? `: ${detail.slice(0, 160)}` : ''}`); }
   return response.status === 204 ? null : response.json();
 }
 async function jsonBody(request) { let body = ''; for await (const chunk of request) body += chunk; return body ? JSON.parse(body) : {}; }
@@ -46,13 +46,13 @@ const server = http.createServer(async (request, response) => {
     if (url.pathname === '/api/command' && request.method === 'POST') {
       const body = await jsonBody(request);
       if (!body.command || typeof body.command !== 'string') return sendJson(response, 400, { error: 'command is required' });
-      await haRequest('/services/remote/send_command', { method: 'POST', body: JSON.stringify({ target: { entity_id: entityId }, data: { command: body.command, ...(body.hold_secs ? { hold_secs: body.hold_secs } : {}) } }) });
+      await haRequest('/services/remote/send_command', { method: 'POST', body: JSON.stringify({ entity_id: entityId, command: body.command, ...(body.hold_secs ? { hold_secs: body.hold_secs } : {}) }) });
       return sendJson(response, 200, { ok: true });
     }
     if (url.pathname === '/api/launch' && request.method === 'POST') {
       const body = await jsonBody(request);
       if (!body.activity || typeof body.activity !== 'string') return sendJson(response, 400, { error: 'activity is required' });
-      await haRequest('/services/remote/turn_on', { method: 'POST', body: JSON.stringify({ target: { entity_id: entityId }, data: { activity: body.activity } }) });
+      await haRequest('/services/remote/turn_on', { method: 'POST', body: JSON.stringify({ entity_id: entityId, activity: body.activity }) });
       return sendJson(response, 200, { ok: true });
     }
     if (request.method !== 'GET' || url.pathname.startsWith('/api/')) return sendJson(response, 404, { error: 'Not found' });
