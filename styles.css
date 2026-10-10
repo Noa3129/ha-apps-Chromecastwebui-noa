@@ -11,3 +11,15 @@
 @media (min-width:600px){body{display:grid;place-items:center;padding:20px;overflow:auto}.app{height:min(900px,calc(100dvh - 40px));border:1px solid var(--line);border-radius:36px;background:var(--bg)}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important}}
 .app-logo:empty{display:none}.app-logo img{width:100%;height:100%;border-radius:inherit;object-fit:cover}
+@media (max-width:599px){
+  .app{padding-left:max(14px,4vw);padding-right:max(14px,4vw);gap:clamp(8px,2.1dvh,18px)}
+  .pad-wrap{max-width:380px;padding:14px;border-radius:34px}
+  .pad{grid-template-rows:repeat(3,clamp(60px,9dvh,82px));gap:6px}
+  .key{min-width:60px;min-height:60px}
+  .key svg{width:29px;height:29px}
+}
+@media (max-height:760px) and (max-width:599px){
+  .pad-wrap{padding:10px;border-radius:30px}
+  .pad{grid-template-rows:repeat(3,clamp(56px,7.6dvh,68px));gap:5px}
+  .key{min-width:56px;min-height:56px}
+}

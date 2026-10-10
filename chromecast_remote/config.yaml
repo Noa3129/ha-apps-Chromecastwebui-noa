@@ -1,5 +1,5 @@
 name: "Chromecast Remote"
-version: "0.4.1"
+version: "0.4.2"
 slug: "chromecast_remote"
 description: "iOS-friendly Chromecast and Android TV remote powered by Home Assistant's Android TV Remote integration."
 arch:
