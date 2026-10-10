@@ -74,9 +74,9 @@ async function sendAction(action, button) {
     const body = isApp ? { activity } : { command: commands[action] };
     if (!body.command && !body.activity) throw new Error('unsupported action');
     const response = await fetch(isApp ? './api/launch' : './api/command', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
-    if (!response.ok) throw new Error('request failed');
+    if (!response.ok) { const detail = await response.json().catch(() => ({})); throw new Error(detail.error || `HTTP ${response.status}`); }
     notify(`${isApp ? 'アプリ起動' : action}を送信しました`);
-  } catch { notify('Home Assistantへの送信に失敗しました'); statusText.textContent = '送信失敗 · Home Assistantを確認してください'; }
+  } catch (error) { notify(`送信失敗：${error.message}`); statusText.textContent = `送信失敗 · ${error.message}`; }
 }
 function markPressed(button) { button.classList.add('pressed'); clearTimeout(button._pressTimer); button._pressTimer = setTimeout(() => button.classList.remove('pressed'), 180); }
 
