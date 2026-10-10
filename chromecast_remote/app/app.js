@@ -7,6 +7,7 @@ const deviceSubtitle = document.querySelector('#deviceSubtitle');
 let currentTheme = localStorage.getItem('remote-theme') || 'system';
 let isMuted = false;
 let toastTimer;
+let audioContext;
 
 function applyTheme(theme) {
   if (theme === 'system') document.documentElement.removeAttribute('data-theme');
@@ -21,6 +22,20 @@ function tactileFeedback(duration = 8) {
   if (typeof navigator.vibrate === 'function') navigator.vibrate(duration);
   const nativeHaptic = window.webkit?.messageHandlers?.haptic;
   if (nativeHaptic?.postMessage) nativeHaptic.postMessage({ duration });
+}
+function soundFeedback() {
+  try {
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContext) return;
+    audioContext ||= new AudioContext();
+    if (audioContext.state === 'suspended') audioContext.resume();
+    const oscillator = audioContext.createOscillator();
+    const gain = audioContext.createGain();
+    const now = audioContext.currentTime;
+    oscillator.type = 'sine'; oscillator.frequency.setValueAtTime(220, now); oscillator.frequency.exponentialRampToValueAtTime(120, now + 0.045);
+    gain.gain.setValueAtTime(0.025, now); gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.05);
+    oscillator.connect(gain).connect(audioContext.destination); oscillator.start(now); oscillator.stop(now + 0.05);
+  } catch {}
 }
 function setConnectionStatus() { const offline = !navigator.onLine; status.classList.toggle('offline', offline); if (offline) statusText.textContent = 'オフライン · 操作は送信されません'; }
 async function refreshHaStatus() {
@@ -70,7 +85,7 @@ themeToggle.addEventListener('click', () => { currentTheme = currentTheme === 's
 addEventListener('online', () => { setConnectionStatus(); refreshHaStatus(); loadAppSettings(); });
 addEventListener('offline', setConnectionStatus);
 document.querySelectorAll('[data-action]').forEach(button => {
-  button.addEventListener('pointerdown', () => { markPressed(button); tactileFeedback(); });
+  button.addEventListener('pointerdown', () => { markPressed(button); tactileFeedback(); soundFeedback(); });
   button.addEventListener('pointerup', () => button.classList.remove('pressed'));
   button.addEventListener('pointercancel', () => button.classList.remove('pressed'));
   button.addEventListener('click', () => { const action = button.dataset.action; markPressed(button); if (action === 'ミュート') { isMuted = !isMuted; button.classList.toggle('muted', isMuted); button.setAttribute('aria-pressed', String(isMuted)); button.querySelector('span').textContent = isMuted ? 'ミュート中' : 'ミュート'; } sendAction(action, button); });
