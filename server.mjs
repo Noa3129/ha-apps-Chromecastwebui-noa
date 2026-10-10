@@ -32,7 +32,7 @@ function sendJson(response, status, data) { response.writeHead(status, { 'Conten
 
 const server = http.createServer(async (request, response) => {
   try {
-    if (appMode) {
+    if (appMode && request.headers['x-ingress-path']) {
       const clientIp = (request.socket.remoteAddress || '').replace(/^::ffff:/, '');
       if (clientIp !== '172.30.32.2') return sendJson(response, 403, { error: 'Ingress only' });
     }
