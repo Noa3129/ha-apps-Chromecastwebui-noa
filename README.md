@@ -8,6 +8,18 @@
 docker compose up --build -d
 ```
 
+Docker版の外部ポートは`.env`の`APP_PORT`で変更できます。例えば`APP_PORT=9090`なら、アクセス先は`http://<LAN内IP>:9090/`です。アプリ起動ボタンは、以下の環境変数で2枠設定できます。未設定の場合は無地です。
+
+```dotenv
+APP_PORT=9090
+APP_1_LABEL=YouTube
+APP_1_IMAGE_URL=https://example.com/youtube.png
+APP_1_DEEP_LINK=https://www.youtube.com
+APP_2_LABEL=Netflix
+APP_2_IMAGE_URL=https://example.com/netflix.png
+APP_2_DEEP_LINK=https://www.netflix.com
+```
+
 Home Assistant OSでは、同梱のAppリポジトリ形式も利用できます。Settings > Apps > 右上メニュー > Repositoriesで、このリポジトリURLを追加し、「Chromecast Remote」をインストールしてください。AppのConfigurationで `remote_entity` に対象の `remote.*` エンティティを設定すると、Ingress経由でHome Assistantのサイドバーから開けます。AppsはHome Assistant OS専用です。
 
 起動前に `.env` を作成し、Home AssistantのURL、Long-Lived Access Token、Android TV Remoteのremoteエンティティを設定します。

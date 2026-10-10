@@ -10,3 +10,4 @@
 @media (max-width:340px){.app{padding-left:14px;padding-right:14px}.secondary-row,.app-row{gap:7px}.pad-wrap{border-radius:26px}}
 @media (min-width:600px){body{display:grid;place-items:center;padding:20px;overflow:auto}.app{height:min(900px,calc(100dvh - 40px));border:1px solid var(--line);border-radius:36px;background:var(--bg)}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important}}
+.app-logo:empty{display:none}.app-logo img{width:100%;height:100%;border-radius:inherit;object-fit:cover}

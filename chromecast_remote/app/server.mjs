@@ -14,6 +14,11 @@ const haToken = process.env.HA_TOKEN || supervisorToken;
 const entityId = process.env.HA_REMOTE_ENTITY || appOptions.remote_entity || '';
 const haBase = supervisorToken && !haUrl ? 'http://supervisor/core/api' : `${haUrl}/api`;
 const configured = Boolean(haBase && haToken && entityId);
+const appSettings = [1, 2].map((slot) => ({
+  label: process.env[`APP_${slot}_LABEL`] || appOptions[`app_${slot}_label`] || '',
+  image_url: process.env[`APP_${slot}_IMAGE_URL`] || appOptions[`app_${slot}_image_url`] || '',
+  deep_link: process.env[`APP_${slot}_DEEP_LINK`] || appOptions[`app_${slot}_deep_link`] || ''
+}));
 const mime = { '.html':'text/html; charset=utf-8', '.css':'text/css; charset=utf-8', '.js':'text/javascript; charset=utf-8', '.mjs':'text/javascript; charset=utf-8', '.webmanifest':'application/manifest+json', '.svg':'image/svg+xml', '.png':'image/png' };
 
 async function haRequest(endpoint, options = {}) {
@@ -32,7 +37,7 @@ const server = http.createServer(async (request, response) => {
       if (clientIp !== '172.30.32.2') return sendJson(response, 403, { error: 'Ingress only' });
     }
     const url = new URL(request.url, `http://${request.headers.host}`);
-    if (url.pathname === '/api/config' && request.method === 'GET') return sendJson(response, 200, { configured, entity_id: configured ? entityId : null });
+    if (url.pathname === '/api/config' && request.method === 'GET') return sendJson(response, 200, { configured, entity_id: configured ? entityId : null, apps: appSettings });
     if (url.pathname === '/api/status' && request.method === 'GET') {
       if (!configured) return sendJson(response, 200, { configured: false, available: false });
       try { const state = await haRequest(`/states/${encodeURIComponent(entityId)}`); return sendJson(response, 200, { configured: true, available: state.state !== 'unavailable', state: state.state }); }

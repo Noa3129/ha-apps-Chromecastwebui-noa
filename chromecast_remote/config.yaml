@@ -20,6 +20,18 @@ panel_title: Chromecast Remote
 homeassistant_api: true
 options:
   remote_entity: ""
+  app_1_label: ""
+  app_1_image_url: ""
+  app_1_deep_link: ""
+  app_2_label: ""
+  app_2_image_url: ""
+  app_2_deep_link: ""
 schema:
   remote_entity: str
+  app_1_label: str
+  app_1_image_url: str
+  app_1_deep_link: str
+  app_2_label: str
+  app_2_image_url: str
+  app_2_deep_link: str
 stage: experimental
